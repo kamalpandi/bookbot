@@ -1,29 +1,24 @@
-import re
-
-def count_char(words) -> int:
-    all_freq = {}
-    words = words.lower()
-    words = re.sub(r'[^a-zA-Z]', '' ,words)
-    for word in words:
-        if word in all_freq:
-            all_freq[word] += 1
-        else:
-            all_freq[word] = 1
-
-    return all_freq
-
+import sys
+from stats import get_num_words
 
 def main():
-    with open(f"frankenstein.txt", "r") as f:
+    
+    if len(sys.argv) != 2:
+        print("Usage: python3 main.py <path_to_book>")
+        
+    with open(sys.argv[1], "r") as f:
         file_content = f.read()
         count = len(file_content.split())
-        print(f"--- Begin report of books/frankenstein.txt ---")
-        print(count," words found in the document")
-        freq = count_char(file_content)
+        print("============ BOOKBOT ============")
+        print(f"Analyzing book found at books/frankenstein.txt...")
+        print("----------- Word Count ----------")
+        print(f"Found {count} total words")
+        print("--------- Character Count -------")
+        freq = get_num_words(file_content)
         sorted_freq = sorted(freq.items(), key=lambda item: item[1], reverse=True)
 
         for occ,count in sorted_freq:
-            print(f"The {occ} character was found {count} times")
+            print(f"{occ}: {count}")
 
         f.close
 
